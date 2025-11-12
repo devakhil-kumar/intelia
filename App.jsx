@@ -1,8 +1,9 @@
+import 'react-native-gesture-handler';
 import 'react-native-reanimated';
 
-import React, { useState } from "react";
+import React from "react";
 import { NavigationContainer } from '@react-navigation/native'
-import AuthNavigator from './src/navigation/AuthNavigator'
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ThemeProvider } from './src/contexts/ThemeContext'
 import { Provider, useDispatch, useSelector } from "react-redux";
 import store from './src/app/store';
@@ -31,14 +32,15 @@ const GlobalMessageWrapper = () => {
 
 const App = () => {
   return (
-    <Provider store={store}>
-      <ThemeProvider>
-        <NavigationContainer>
-          <GlobalMessageWrapper />
-        </NavigationContainer>
-      </ThemeProvider>
-    </Provider>
-   
+    <SafeAreaProvider>
+      <Provider store={store}>
+        <ThemeProvider>
+          <NavigationContainer>
+            <GlobalMessageWrapper />
+          </NavigationContainer>
+        </ThemeProvider>
+      </Provider>
+    </SafeAreaProvider>
   )
 }
 

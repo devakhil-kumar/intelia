@@ -1,28 +1,29 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Image, View, Text } from 'react-native';
+import { Image, Text, Platform } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import OwnerHome from '../../CarOwner/home/OwnerHome';
 import DriverList from '../../CarOwner/drivers/DriverList';
 import Resources from '../../CarOwner/resources/Resources';
 import SearchOwner from '../../CarOwner/search/SearchOwner';
 import ImagePath from '../../contexts/ImagePath';
-import NotificationsOwner from '../../CarOwner/notification/NotificationOwner';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-
 
 const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
 
 const CarOwnerBottomTabs = () => {
+    const insets = useSafeAreaInsets();
+    // Only apply bottom inset on Android, not on iOS
+    const bottomInset = Platform.OS === 'android' ? insets.bottom : 10;
+
     return (
         <Tab.Navigator
             screenOptions={{
                 headerShown: false,
                 tabBarStyle: {
                     borderTopWidth: 0,
-                    height: 65,
-                    paddingBottom: 8,
+                    height: 65 + bottomInset,
+                    paddingBottom: bottomInset,
+                    paddingTop: 8,
                 },
                 tabBarShowLabel: true,
                 tabBarLabelStyle: {

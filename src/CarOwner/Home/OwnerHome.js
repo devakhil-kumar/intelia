@@ -8,8 +8,8 @@ import Feather from "@react-native-vector-icons/feather";
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import Lucide from '@react-native-vector-icons/lucide';
 import ImagePath from "../../contexts/ImagePath";
-import AdvancedIncidentsChart from '../home/components/AdvancedIncidentsChart';
-import RiskAssessmentChart from '../home/components/RiskAssessmentChart'
+import AdvancedIncidentsChart from './components/AdvancedIncidentsChart';
+import RiskAssessmentChart from './components/RiskAssessmentChart'
 const { width: windowWidth, height: windowHeight } = Dimensions.get("window");
 
 
@@ -35,7 +35,7 @@ const OwnerHome = () => {
     };
 
     return (
-        <SafeAreaView style={styles.main}>
+        // <SafeAreaView style={styles.main}>
               <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.innerScreen}>
               
@@ -102,7 +102,7 @@ const OwnerHome = () => {
           <RiskAssessmentChart />
             </View>
                   </ScrollView>
-        </SafeAreaView>
+        // </SafeAreaView>
     )
 }
 

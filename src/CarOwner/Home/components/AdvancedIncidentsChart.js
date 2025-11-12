@@ -278,7 +278,7 @@ const style = (theme) => StyleSheet.create({
         backgroundColor: '#FFFFFF',
         borderRadius: 12,
         padding: 16,
-        margin: 16,
+        // margin: 16,
         shadowColor: "#000",
         shadowOpacity: 0.08,
         shadowOffset: { width: 0, height: 2 },
