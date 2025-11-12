@@ -49,7 +49,7 @@ export const loginService = async userData => {
         const response = await LoginAPI(userData);
         return response.data;
     } catch (error) {
-        console.log(error.response?.data?.message, 'resposenbchdfb')
+        console.log(error, 'resposenbchdfb')
         const errorMessage =
             error.response?.data?.message ||
             error.response?.data?.error;

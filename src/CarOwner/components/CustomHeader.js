@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, StyleSheet, Dimensions, Image } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import FontAwesome from "@react-native-vector-icons/fontawesome";
 import Feather from "@react-native-vector-icons/feather";
 import ImagePath from '../../contexts/ImagePath';
@@ -8,6 +9,7 @@ const { width: windowWidth, height: windowHeight } = Dimensions.get("window");
 
 const CustomHeader = () => {
     const [selectedActivities, setSelectedActivities] = useState(false);
+    const insets = useSafeAreaInsets();
     const navigation = useNavigation()
     const route = useRoute();
     const isNotificationScreen = route.name === 'NotificationsOwner';
@@ -23,7 +25,7 @@ const CustomHeader = () => {
     const handlePressActivities = () => setSelectedActivities(!selectedActivities);
 
     return (
-        <View style={styles.headerContainer}>
+        <View style={[styles.headerContainer, { paddingTop: insets.top + 10 }]}>
             <View style={styles.leftContainer}>
                 <TouchableOpacity onPress={() => navigation.openDrawer()}>
                     <FontAwesome name="bars" color={'black'} size={20} />
