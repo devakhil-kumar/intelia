@@ -6,10 +6,10 @@ import CarOwnerBottomTabs from '../CarOwnerNavigator/CarOwnerBottomTabs';
 import { logout } from '../../app/features/registerSlice';
 import Profile from '../../CarOwner/profileOwner/Profile';
 import TalentHub from '../../CarOwner/talentHub/TalentHub';
-import SettingsOwner from '../../CarOwner/settings/Settings';
 import CustomHeader from '../../CarOwner/components/CustomHeader';
 import ImagePath from '../../contexts/ImagePath';
 import { useTheme } from '../../contexts/ThemeContext';
+import NotificationsOwner from '../../CarOwner/notification/NotificationOwner';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -50,14 +50,14 @@ const CustomDrawerContent = (props) => {
 };
 
 const OwnerDrawer = () => {
-  const  theme  = useTheme();
+  const theme = useTheme();
 
   return (
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawerContent {...props} />}
       screenOptions={{
         header: ({ navigation }) => <CustomHeader navigation={navigation} />,
-        drawerActiveTintColor:theme.primary,
+        drawerActiveTintColor: theme.primary,
         drawerInactiveTintColor: '#ccc',
         drawerLabelStyle: { fontSize: 15 },
       }}
@@ -65,6 +65,18 @@ const OwnerDrawer = () => {
       <Drawer.Screen
         name="DashBorad"
         component={CarOwnerBottomTabs}
+        options={{
+          drawerIcon: ({ focused }) => (
+            <Image
+              source={focused ? ImagePath.home : ImagePath.home}
+              style={{ width: 22, height: 22, resizeMode: 'contain' }}
+            />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="NotificationsOwner"
+        component={NotificationsOwner}
         options={{
           drawerIcon: ({ focused }) => (
             <Image

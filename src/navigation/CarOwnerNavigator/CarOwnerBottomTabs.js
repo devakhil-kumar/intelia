@@ -1,15 +1,18 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Image, View, Text } from 'react-native';
-import OwnerHome from '../../CarOwner/Home/OwnerHome';
+import OwnerHome from '../../CarOwner/home/OwnerHome';
 import DriverList from '../../CarOwner/drivers/DriverList';
 import Resources from '../../CarOwner/resources/Resources';
 import SearchOwner from '../../CarOwner/search/SearchOwner';
 import ImagePath from '../../contexts/ImagePath';
+import NotificationsOwner from '../../CarOwner/notification/NotificationOwner';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
 const CarOwnerBottomTabs = () => {
     return (

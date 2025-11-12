@@ -3,14 +3,23 @@ import { View, TextInput, TouchableOpacity, StyleSheet, Dimensions, Image } from
 import FontAwesome from "@react-native-vector-icons/fontawesome";
 import Feather from "@react-native-vector-icons/feather";
 import ImagePath from '../../contexts/ImagePath';
+import { useNavigation, useRoute } from '@react-navigation/native';
 const { width: windowWidth, height: windowHeight } = Dimensions.get("window");
 
-const CustomHeader = ({ navigation }) => {
-    const [selectedBell, setSelectedBell] = useState(false);
+const CustomHeader = () => {
     const [selectedActivities, setSelectedActivities] = useState(false);
-    const [selectedSun, setSelectedSun] = useState(false);
+    const navigation = useNavigation()
+    const route = useRoute();
+    const isNotificationScreen = route.name === 'NotificationsOwner';
 
-    const handlePressBell = () => setSelectedBell(!selectedBell);
+    const handlePressBell = () => {
+        if (isNotificationScreen) {
+            navigation.goBack();
+        } else {
+            navigation.navigate('NotificationsOwner');
+        }
+    };
+
     const handlePressActivities = () => setSelectedActivities(!selectedActivities);
 
     return (
@@ -40,7 +49,7 @@ const CustomHeader = ({ navigation }) => {
                 <TouchableOpacity onPress={handlePressBell}>
                     <View style={styles.iconContainer}>
                         <Image
-                            source={selectedBell ? ImagePath.announcement : ImagePath.inActiveannouncement}
+                            source={isNotificationScreen ? ImagePath.announcement : ImagePath.inActiveannouncement}
                             style={styles.iconImage}
                             resizeMode="contain"
                         />
@@ -94,13 +103,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#000',
         borderRadius: 16,
     },
-    iconImage:{
-        width:30,
-        height:30
+    iconImage: {
+        width: 30,
+        height: 30
     },
-    iconImageChat:{
-        width:30,
-        height:20
+    iconImageChat: {
+        width: 30,
+        height: 20
     }
 });
 

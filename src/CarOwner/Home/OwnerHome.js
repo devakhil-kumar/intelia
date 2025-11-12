@@ -8,8 +8,8 @@ import Feather from "@react-native-vector-icons/feather";
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import Lucide from '@react-native-vector-icons/lucide';
 import ImagePath from "../../contexts/ImagePath";
-import AdvancedIncidentsChart from '../Home/components/AdvancedIncidentsChart';
-import RiskAssessmentChart from '../Home/components/RiskAssessmentChart'
+import AdvancedIncidentsChart from '../home/components/AdvancedIncidentsChart';
+import RiskAssessmentChart from '../home/components/RiskAssessmentChart'
 const { width: windowWidth, height: windowHeight } = Dimensions.get("window");
 
 

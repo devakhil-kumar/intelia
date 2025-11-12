@@ -138,10 +138,13 @@ const SignupScreen = () => {
     return `${year}-${month}-${day}`;
   }
 
+  const onNextDriverSide = () => {
+    navigation.navigate('UploadScreen')
+  }
+
   const onSignup = async () => {
     setIsSubmitted(true);
     setIsLoading(true);
-
     if (!selectedRole) {
       setRoleError("Please select your role");
       dispatch(showMessage({
@@ -300,11 +303,15 @@ const SignupScreen = () => {
             }
           </View>
           <View style={{ marginTop: 40 }}>
-            <CustomBtn
-              title="Sign in"
+            {selectedRole === "driver" ? <CustomBtn
+              title="Next"
+              variant="primary"
+              onPress={onNextDriverSide}
+            /> : <CustomBtn
+              title="Sign Up"
               variant="primary"
               onPress={onSignup}
-            />
+            />}
             <View style={style.dividerContainer}>
               <View style={style.divider} />
               <Text style={style.dividerText}>OR</Text>
@@ -413,7 +420,7 @@ const styles = (theme) => StyleSheet.create({
     fontSize: moderateScale(12),
     fontFamily: Fonts.RubikSemiBold
   },
- loaderOverlay: {
+  loaderOverlay: {
     position: 'absolute',
     top: 0,
     left: 0,
