@@ -26,6 +26,16 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+
+	<!-- 👇 ADD THESE CAMERA PERMISSIONS -->
+	<key>NSCameraUsageDescription</key>
+	<string>This app requires access to your camera to take a selfie for verification.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app needs access to your photo library to select and save selfies.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>This app needs access to save your captured selfies to your photo library.</string>
+	<!-- 👆 END OF CAMERA PERMISSIONS -->
+
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -33,6 +43,7 @@
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
+
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>RCTNewArchEnabled</key>

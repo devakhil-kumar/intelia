@@ -4,6 +4,7 @@ import LoginScreen from '../screens/authScreens/LoginScreen';
 import SignupScreen from '../screens/authScreens/SignupScreen';
 import { Platform } from 'react-native';
 import UploaddriverImage from '../screens/authScreens/UploaddriverImage';
+import SelfieIntroScreen from '../screens/authScreens/SelfieIntroScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +20,11 @@ const AuthNavigator = () => {
       <Stack.Screen
         name="Signup"
         component={SignupScreen}
+        options={{ headerShown: false }}
+      />
+       <Stack.Screen
+        name="OptionUpload"
+        component={SelfieIntroScreen}
         options={{ headerShown: false }}
       />
        <Stack.Screen

@@ -21,5 +21,7 @@ export default {
     inquiries: require('../assets/image/Inquiries.png'),
     licenses: require('../assets/image/licenses.png'),
     incidents: require('../assets/image/Incidents.png'),
-    driverIcons: require('../assets/image/driversIcon.png')
+    driverIcons: require('../assets/image/driversIcon.png'),
+    human : require('../assets/image/human.png'),
+    faceScan: require('../assets/image/faceSturture.png')
 };

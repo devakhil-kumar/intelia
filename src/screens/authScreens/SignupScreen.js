@@ -139,8 +139,34 @@ const SignupScreen = () => {
   }
 
   const onNextDriverSide = () => {
-    navigation.navigate('UploadScreen')
+    if (selectedRole === 'driver') {
+      validationErrors = validateDriverFields();
+    }
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      dispatch(showMessage({
+        type: 'error',
+        text: 'Please fix the errors in the form'
+      }));
+      setIsLoading(false);
+      return;
+    }
+    if (selectedRole === 'driver') {
+      const driverData = {
+        firstName: formData.firstName,
+        surname: formData.surname,
+        licenseNumber: formData.licenseNumber,
+        email: formData.email,
+        password: formData.password,
+        phoneNumber: formData.phoneNumber,
+        municipality: formData.municipality,
+        vehicleRegistration: formData.vehicleRegistration,
+        validUntil: formatDateForAPI(formData.validUntil),
+      };
+      navigation.navigate('OptionUpload', { driverData });
+    }
   }
+
 
   const onSignup = async () => {
     setIsSubmitted(true);
