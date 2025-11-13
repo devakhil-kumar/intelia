@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Platform } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import { moderateScale } from 'react-native-size-matters';
 import Fonts from '../styles/GolbalFonts';
@@ -72,7 +72,8 @@ const style = (theme) => StyleSheet.create({
         borderWidth: 1,
         borderRadius: 16,
         paddingHorizontal: 16,
-        paddingVertical: 15,
+        paddingVertical: Platform.OS === 'ios' ? 14 : 12,
+        minHeight: moderateScale(50),
         backgroundColor: theme.white,
         fontSize: moderateScale(14)
     },
@@ -90,8 +91,9 @@ const style = (theme) => StyleSheet.create({
         color: '#999',
     },
     selectedTextStyle: {
-        fontSize: 15,
-        color: '#333',
+        fontSize: moderateScale(14),
+        color: theme.text,
+        fontFamily: Fonts.RubikRegular,
     },
     iconStyle: {
         width: 20,
@@ -110,8 +112,9 @@ const style = (theme) => StyleSheet.create({
         elevation: 5,
     },
     itemText: {
-        fontSize: 15,
-        color: '#333',
+        fontSize: moderateScale(14),
+        color: theme.text,
+        fontFamily: Fonts.RubikRegular,
         padding: 10,
     },
     errorText: {
