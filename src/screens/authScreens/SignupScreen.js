@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ActivityIndicator, Image, ImageBackground, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Image, ImageBackground, ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { moderateScale } from "react-native-size-matters";
 import CustomBtn from '../../components/CustomBtn';
@@ -10,8 +10,9 @@ import { useTheme } from "../../contexts/ThemeContext";
 import CustomDropdown from '../../components/CustomDropDown';
 import OwnerFields from '../authScreens/components/OwnerFields';
 import DriverFields from '../authScreens/components/DriverFields';
+import {KeyboardAwareScrollView}from 'react-native-keyboard-aware-scroll-view';
 import { useDispatch } from "react-redux";
-import { registerOwner, registerDriver } from "../../app/features/registerSlice"
+import { registerOwner, } from "../../app/features/registerSlice"
 import { showMessage } from "../../app/features/messageSlice";
 import {
   validateEmail,
@@ -20,7 +21,6 @@ import {
   validatePhoneNumber,
   validateName,
   validateLicenseNumber,
-  validateVehicleRegistration,
   validateDate
 } from '../../units/validations';
 
@@ -246,100 +246,106 @@ const SignupScreen = () => {
   return (
     <SafeAreaView style={style.main}>
       <ImageBackground source={ImagePath.backgroundImage} style={style.main}>
-        <ScrollView style={style.innerMain} showsVerticalScrollIndicator={false}>
-          <View>
-            <View style={style.frontBox}>
-              <Text style={style.headerText}>
-                Join us{"\n"}Now!!
-              </Text>
-              <Text style={style.subHeaderText}>
-                Let's Create your account
-              </Text>
+        <KeyboardAwareScrollView
+          showsVerticalScrollIndicator={false}
+          extraScrollHeight={100}
+          enableOnAndroid={true}
+        >
+        <View style={style.innerMain}>
+        <View>
+          <View style={style.frontBox}>
+            <Text style={style.headerText}>
+              Join us{"\n"}Now!!
+            </Text>
+            <Text style={style.subHeaderText}>
+              Let's Create your account
+            </Text>
 
-            </View>
-            <View style={style.secandBox}>
-              <CustomDropdown
-                label="Select Your Role"
-                data={roleData}
-                placeholder="Select your role"
-                value={selectedRole}
-                onChange={item => {
-                  setSelectedRole(item.value);
-                  setRoleError('');
-                  setFormData('');
-                  setErrors('')
-                }}
-                customStyles={[roleError && { borderColor: theme.validationColor }]}
-              />
-              {roleError ? (
-                <Text style={{ color: 'red', fontSize: 12, marginTop: 5 }}>
-                  {roleError}
-                </Text>
-              ) : null}
-            </View>
-            {selectedRole === 'owner' && (
-              <OwnerFields
-                formData={formData}
-                setFormData={setFormData}
-                theme={theme}
-                errors={errors}
-                isSubmitted={isSubmitted}
-                setErrors={setErrors}
-                validateField={validateField}
-              />
-            )}
-            {selectedRole === "driver" && (
-              <DriverFields
-                formData={formData}
-                setFormData={setFormData}
-                theme={theme}
-                errors={errors}
-                isSubmitted={isSubmitted}
-                setErrors={setErrors}
-                validateField={validateField}
-
-              />
-            )
-            }
           </View>
-          <View style={{ marginTop: 40 }}>
-            {selectedRole === "driver" ? <CustomBtn
-              title="Next"
-              variant="primary"
-              onPress={onNextDriverSide}
-            /> : <CustomBtn
-              title="Sign Up"
-              variant="primary"
-              onPress={onSignup}
-            />}
-            <View style={style.dividerContainer}>
-              <View style={style.divider} />
-              <Text style={style.dividerText}>OR</Text>
-              <View style={style.divider} />
-            </View>
-            <CustomBtn
-              title="Continue with Google"
-              variant="outline"
-              icon={
-                <Image
-                  source={ImagePath.googleImage}
-                  style={style.googleIcon}
-                />
-              }
-              onPress={onGoogleSignup}
+          <View style={style.secandBox}>
+            <CustomDropdown
+              label="Select Your Role"
+              data={roleData}
+              placeholder="Select your role"
+              value={selectedRole}
+              onChange={item => {
+                setSelectedRole(item.value);
+                setRoleError('');
+                setFormData('');
+                setErrors('')
+              }}
+              customStyles={[roleError && { borderColor: theme.validationColor }]}
+            />
+            {roleError ? (
+              <Text style={{ color: 'red', fontSize: 12, marginTop: 5 }}>
+                {roleError}
+              </Text>
+            ) : null}
+          </View>
+          {selectedRole === 'owner' && (
+            <OwnerFields
+              formData={formData}
+              setFormData={setFormData}
+              theme={theme}
+              errors={errors}
+              isSubmitted={isSubmitted}
+              setErrors={setErrors}
+              validateField={validateField}
+            />
+          )}
+          {selectedRole === "driver" && (
+            <DriverFields
+              formData={formData}
+              setFormData={setFormData}
+              theme={theme}
+              errors={errors}
+              isSubmitted={isSubmitted}
+              setErrors={setErrors}
+              validateField={validateField}
 
             />
-            <View style={style.signupContainer}>
-              <Text style={style.signupText}>Already have an Account?</Text>
-              <TouchableOpacity onPress={onHandleLogin}>
-                <Text style={style.signupLink}>
-                  Login
-                </Text>
-              </TouchableOpacity>
-
-            </View>
+          )
+          }
+        </View>
+        <View style={{ marginTop: 40 }}>
+          {selectedRole === "driver" ? <CustomBtn
+            title="Next"
+            variant="primary"
+            onPress={onNextDriverSide}
+          /> : <CustomBtn
+            title="Sign Up"
+            variant="primary"
+            onPress={onSignup}
+          />}
+          <View style={style.dividerContainer}>
+            <View style={style.divider} />
+            <Text style={style.dividerText}>OR</Text>
+            <View style={style.divider} />
           </View>
-        </ScrollView>
+          <CustomBtn
+            title="Continue with Google"
+            variant="outline"
+            icon={
+              <Image
+                source={ImagePath.googleImage}
+                style={style.googleIcon}
+              />
+            }
+            onPress={onGoogleSignup}
+
+          />
+          <View style={style.signupContainer}>
+            <Text style={style.signupText}>Already have an Account?</Text>
+            <TouchableOpacity onPress={onHandleLogin}>
+              <Text style={style.signupLink}>
+                Login
+              </Text>
+            </TouchableOpacity>
+
+          </View>
+        </View>
+        </View>
+        </KeyboardAwareScrollView>
       </ImageBackground>
       {isLoading && (
         <View style={style.loaderOverlay}>
@@ -357,7 +363,7 @@ const styles = (theme) => StyleSheet.create({
     flex: 1
   },
   innerMain: {
-    flex: 1,
+    // flex: 1,
     paddingHorizontal: 18,
 
   },

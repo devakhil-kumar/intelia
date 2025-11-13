@@ -110,7 +110,7 @@ const UploaddriverImage = () => {
     }
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <View style={{ flex: 1 }}>
             <ImageBackground source={ImagePath.backgroundImage} style={{ flex: 1 }}>
                 <View style={styles.header}>
                     <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -143,7 +143,7 @@ const UploaddriverImage = () => {
                     }
                 </View>
             </ImageBackground>
-        </SafeAreaView>
+        </View>
     );
 };
 
