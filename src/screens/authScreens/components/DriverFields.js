@@ -47,34 +47,15 @@ const DriverFields = ({ formData, setFormData, errors, theme, isSubmitted, setEr
     return (
         <View style={style.secandBox}>
 
-            <Text style={[style.inputHeader, { marginTop: 0 }]}>First Name</Text>
+            <Text style={[style.inputHeader, { marginTop: 0 }]}>Full Name</Text>
             <CustomInput
-                placeholder="enter your first name"
-                value={formData.firstName}
-                onChangeText={(text) => handleChange('firstName', text)}
-                style={[{ marginTop: 8 }, errors.firstName && { borderColor: theme.validationColor, borderWidth: 1 }]}
+                placeholder="enter your fullname"
+                value={formData.fullName}
+                onChangeText={(text) => handleChange('fullName', text)}
+                style={[{ marginTop: 8 }, errors.fullName && { borderColor: theme.validationColor, borderWidth: 1 }]}
             />
-            {errors.firstName && <Text style={style.errorText}>{errors.firstName}</Text>}
-
-            <Text style={style.inputHeader}>Surname</Text>
-            <CustomInput
-                placeholder="enter your surname"
-                value={formData.surname}
-                onChangeText={(text) => handleChange('surname', text)}
-                style={[{ marginTop: 8 }, errors.surname && { borderColor: theme.validationColor, borderWidth: 1 }]}
-            />
-            {errors.surname && <Text style={style.errorText}>{errors.surname}</Text>}
-
-            <Text style={style.inputHeader}>License Number</Text>
-            <CustomInput
-                placeholder="enter your license number"
-                value={formData.licenseNumber}
-                onChangeText={(text) => handleChange('licenseNumber', text.toUpperCase())}
-                autoCapitalize="characters"
-                style={[{ marginTop: 8 }, errors.licenseNumber && { borderColor: theme.validationColor, borderWidth: 1 }]}
-            />
-            {errors.licenseNumber && <Text style={style.errorText}>{errors.licenseNumber}</Text>}
-
+            {errors.fullName && <Text style={style.errorText}>{errors.fullName}</Text>}
+            
             <Text style={style.inputHeader}>Email</Text>
             <CustomInput
                 placeholder="enter your email"
@@ -107,6 +88,16 @@ const DriverFields = ({ formData, setFormData, errors, theme, isSubmitted, setEr
             />
             {errors.phoneNumber && <Text style={style.errorText}>{errors.phoneNumber}</Text>}
 
+            <Text style={style.inputHeader}>Driving License Number</Text>
+            <CustomInput
+                placeholder="enter your license number"
+                value={formData.licenseNumber}
+                onChangeText={(text) => handleChange('licenseNumber', text.toUpperCase())}
+                autoCapitalize="characters"
+                style={[{ marginTop: 8 }, errors.licenseNumber && { borderColor: theme.validationColor, borderWidth: 1 }]}
+            />
+            {errors.licenseNumber && <Text style={style.errorText}>{errors.licenseNumber}</Text>}
+
             <Text style={style.inputHeader}>Municipality</Text>
             <CustomInput
                 placeholder="enter your municipality"
@@ -115,16 +106,6 @@ const DriverFields = ({ formData, setFormData, errors, theme, isSubmitted, setEr
                 style={[{ marginTop: 8 }, errors.municipality && { borderColor: theme.validationColor, borderWidth: 1 }]}
             />
             {errors.municipality && <Text style={style.errorText}>{errors.municipality}</Text>}
-
-            <Text style={style.inputHeader}>Vehicle Registration</Text>
-            <CustomInput
-                placeholder="enter vehicle registration"
-                value={formData.vehicleRegistration}
-                onChangeText={(text) => handleChange('vehicleRegistration', text.toUpperCase())}
-                autoCapitalize="characters"
-                style={[{ marginTop: 8 }, errors.vehicleRegistration && { borderColor: theme.validationColor, borderWidth: 1 }]}
-            />
-            {errors.vehicleRegistration && <Text style={style.errorText}>{errors.vehicleRegistration}</Text>}
 
             <Text style={style.inputHeader}>Valid Until</Text>
             <TouchableOpacity

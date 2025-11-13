@@ -14,9 +14,13 @@ export const RegisterOwner = userdata => {
     return axiosInstance.post(API_ROUTES.REGISTEROWNER, userdata)
 }
 
-export const RegisterDirver = userdata => {
-    return axiosInstance.post(API_ROUTES.REGISTERDRIVER, userdata)
-}
+export const RegisterDirver = (formData) => {
+    return axios.post(`${BASE_URL}${API_ROUTES.REGISTERDRIVER}`, formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    });
+};
 
 export const LoginAPI = userdata => {
     return axiosInstance.post(API_ROUTES.LOGIN, userdata)

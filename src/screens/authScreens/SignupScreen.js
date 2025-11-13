@@ -41,8 +41,7 @@ const SignupScreen = () => {
   const [errors, setErrors] = useState({});
 
   const [formData, setFormData] = useState({
-    firstName: '',
-    surname: '',
+    fullName: '',
     companyName: '',
     reason: '',
     phoneNumber: '',
@@ -51,7 +50,6 @@ const SignupScreen = () => {
     confirmPassword: '',
     licenseNumber: '',
     municipality: '',
-    vehicleRegistration: '',
     validUntil: '',
   });
 
@@ -66,8 +64,7 @@ const SignupScreen = () => {
 
   const validateOwnerFields = () => {
     const newErrors = {};
-    newErrors.firstName = validateName(formData.firstName, 'First name');
-    newErrors.surname = validateName(formData.surname, 'Surname');
+    newErrors.fullName = validateName(formData.fullName, 'fullName');
     if (!formData.companyName) {
       newErrors.companyName = 'Company name is required';
     } else if (formData.companyName.length < 2) {
@@ -91,8 +88,7 @@ const SignupScreen = () => {
 
   const validateDriverFields = () => {
     const newErrors = {};
-    newErrors.firstName = validateName(formData.firstName, 'First name');
-    newErrors.surname = validateName(formData.surname, 'Surname');
+    newErrors.fullName = validateName(formData.fullName, 'fullName');
     newErrors.licenseNumber = validateLicenseNumber(formData.licenseNumber);
     newErrors.email = validateEmail(formData.email);
     newErrors.password = validatePassword(formData.password);
@@ -100,7 +96,6 @@ const SignupScreen = () => {
     if (!formData.municipality) {
       newErrors.municipality = 'Municipality is required';
     }
-    newErrors.vehicleRegistration = validateVehicleRegistration(formData.vehicleRegistration);
     newErrors.validUntil = validateDate(formData.validUntil);
     Object.keys(newErrors).forEach(key => {
       if (!newErrors[key]) delete newErrors[key];
@@ -110,8 +105,7 @@ const SignupScreen = () => {
 
   const validateField = (field, value) => {
     switch (field) {
-      case 'firstName': return validateName(value, 'First name');
-      case 'surname': return validateName(value, 'Surname');
+      case 'fullName': return validateName(value, 'fullName');
       case 'companyName':
         if (!value) return 'Company name is required';
         else if (value.length < 2) return 'Company name must be at least 2 characters';
@@ -126,7 +120,6 @@ const SignupScreen = () => {
       case 'confirmPassword': return validateConfirmPassword(formData.password, value);
       case 'licenseNumber': return validateLicenseNumber(value);
       case 'municipality': return !value ? 'Municipality is required' : '';
-      case 'vehicleRegistration': return validateVehicleRegistration(value);
       case 'validUntil': return validateDate(value);
       default: return '';
     }
@@ -139,6 +132,7 @@ const SignupScreen = () => {
   }
 
   const onNextDriverSide = () => {
+    let validationErrors = {};
     if (selectedRole === 'driver') {
       validationErrors = validateDriverFields();
     }
@@ -153,14 +147,12 @@ const SignupScreen = () => {
     }
     if (selectedRole === 'driver') {
       const driverData = {
-        firstName: formData.firstName,
-        surname: formData.surname,
+        fullName: formData.fullName,
         licenseNumber: formData.licenseNumber,
         email: formData.email,
         password: formData.password,
         phoneNumber: formData.phoneNumber,
         municipality: formData.municipality,
-        vehicleRegistration: formData.vehicleRegistration,
         validUntil: formatDateForAPI(formData.validUntil),
       };
       navigation.navigate('OptionUpload', { driverData });
@@ -204,7 +196,7 @@ const SignupScreen = () => {
     try {
       if (selectedRole === 'owner') {
         const ownerData = {
-          firstName: formData.firstName,
+          fullName: formData.fullName,
           surname: formData.surname,
           companyName: formData.companyName,
           correspondedMe: formData.reason,
@@ -219,24 +211,6 @@ const SignupScreen = () => {
         }));
         navigation.navigate('Login');
 
-      } else if (selectedRole === 'driver') {
-        const driverData = {
-          firstName: formData.firstName,
-          surname: formData.surname,
-          licenseNumber: formData.licenseNumber,
-          email: formData.email,
-          password: formData.password,
-          phoneNumber: formData.phoneNumber,
-          municipality: formData.municipality,
-          vehicleRegistration: formData.vehicleRegistration,
-          validUntil: formatDateForAPI(formData.validUntil),
-        };
-        const response = await dispatch(registerDriver(driverData)).unwrap();
-        dispatch(showMessage({
-          type: 'success',
-          text: response?.message || 'Driver registered successfully!',
-        }));
-        navigation.navigate('Login');
       }
     } catch (error) {
       let errorMessage = 'Signup failed! Please try again.';

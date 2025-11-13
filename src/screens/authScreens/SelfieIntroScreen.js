@@ -7,6 +7,7 @@ import {
     Image,
     Alert,
     ImageBackground,
+    Dimensions,
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -15,8 +16,15 @@ import ImagePath from '../../contexts/ImagePath';
 import { moderateScale } from 'react-native-size-matters';
 import Fonts from '../../styles/GolbalFonts';
 import Feather from '@react-native-vector-icons/feather';
+import CustomBtn from '../../components/CustomBtn';
+import { useTheme } from '../../contexts/ThemeContext';
+import Lucide from '@react-native-vector-icons/lucide';
+const { width: windowWidth, height: windowHeight } = Dimensions.get("window");
+
 
 const SelfieIntroScreen = () => {
+    const theme = useTheme();
+    const styles = style(theme);
     const navigation = useNavigation();
     const route = useRoute();
     const { driverData } = route.params || {};
@@ -32,13 +40,17 @@ const SelfieIntroScreen = () => {
                 mediaType: 'photo',
             });
             setSelectedImage(image.path);
+            navigation.navigate('UploadScreen', {
+                driverData,
+                galleryImage: image,
+            });
         } catch (error) {
             console.log('Gallery access cancelled or failed:', error);
         }
     };
 
     const openCameraScreen = () => {
-           navigation.navigate('UploadScreen', { driverData });
+        navigation.navigate('UploadScreen', { driverData });
     };
 
     return (
@@ -63,19 +75,12 @@ const SelfieIntroScreen = () => {
                     />
 
                     <View style={styles.infoBox}>
-                        {/* <Image
-          source={{ uri: 'https://cdn-icons-png.flaticon.com/512/483/483408.png' }} // lock icon
-          style={styles.lockIcon}
-        /> */}
+                        <Lucide name='lock-keyhole' size={20} color={theme.text} />
                         <Text style={styles.infoText}>
-                            The data you share will be encrypted, stored securely, and only used to verify your identity
+                            The data you share will be encrypted, stored{'\n'} securely, and only used to verify your identity
                         </Text>
                     </View>
-
-                    <TouchableOpacity style={styles.cameraButton} onPress={openCameraScreen}>
-                        <Text style={styles.cameraButtonText}>Open Camera</Text>
-                    </TouchableOpacity>
-
+                    <CustomBtn title={"Open Camera"} onPress={openCameraScreen} />
                     <TouchableOpacity style={styles.galleryButton} onPress={openGallery}>
                         <Text style={styles.galleryButtonText}>Choose from Gallery</Text>
                     </TouchableOpacity>
@@ -87,7 +92,7 @@ const SelfieIntroScreen = () => {
 
 export default SelfieIntroScreen;
 
-const styles = StyleSheet.create({
+const style = (theme) => StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
@@ -95,23 +100,23 @@ const styles = StyleSheet.create({
         paddingHorizontal: 25,
     },
     headerText: {
-        fontSize: 14,
+        fontSize: moderateScale(14),
+        fontFamily: Fonts.InterMedium,
         textAlign: 'center',
-        color: '#1F1F39',
-        marginBottom: 40,
+        color: theme.text,
     },
     faceIllustration: {
-        width: 200,
-        height: 200,
-        marginBottom: 40,
+        width: windowWidth / 1.2,
+        height: windowHeight / 3.2,
+        marginTop:10 * 5
     },
     infoBox: {
-        backgroundColor: '#F2F2F7',
+        backgroundColor: theme.subText,
         borderRadius: 10,
-        padding: 15,
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 40,
+        marginVertical: 20,
+        padding:8
     },
     lockIcon: {
         width: 20,
@@ -119,40 +124,28 @@ const styles = StyleSheet.create({
         marginRight: 10,
     },
     infoText: {
-        fontSize: 12,
+        fontSize: moderateScale(12),
+        fontFamily:Fonts.InterRegular,
         color: '#555',
-        flex: 1,
-    },
-    cameraButton: {
-        backgroundColor: '#2979FF',
-        width: '100%',
-        paddingVertical: 15,
-        borderRadius: 10,
-        alignItems: 'center',
-        marginBottom: 15,
-    },
-    cameraButtonText: {
-        color: '#FFF',
-        fontSize: 16,
-        fontWeight: '600',
     },
     galleryButton: {
-        borderColor: '#2979FF',
+        borderColor: theme.primary,
         borderWidth: 1,
         width: '100%',
         paddingVertical: 15,
         borderRadius: 10,
         alignItems: 'center',
+        marginTop: 10
     },
     galleryButtonText: {
-        color: '#2979FF',
+        color: theme.primary,
         fontSize: 16,
         fontWeight: '600',
     },
     headerTitle: {
         fontSize: moderateScale(16),
         fontFamily: Fonts.InterSemiBold,
-        // color: theme.text,
+        color: theme.text,
     },
     header: {
         height: 56,

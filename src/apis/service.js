@@ -29,7 +29,7 @@ export const RegisterDriverService = async userData => {
         console.log(response.data, 'response_________')
         return response.data
     } catch (error) {
-        console.log(error, 'error++++++++')
+        console.log(error.response, 'error____________________________')
         if (error.response && error.response.data) {
             const errorMessage = error.response.data.message ||
                 error.response.data.error ||

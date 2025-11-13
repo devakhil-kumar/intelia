@@ -21,6 +21,7 @@ export const registerDriver = createAsyncThunk(
             const response = await RegisterDriverService(userData);
             return response.data;
         } catch (error) {
+            console.log(error.message, 'eror+++++++++++++++++++++++++')
             return rejectWithValue(error.message);
         }
     }

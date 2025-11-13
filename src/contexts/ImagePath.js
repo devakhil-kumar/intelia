@@ -23,5 +23,6 @@ export default {
     incidents: require('../assets/image/Incidents.png'),
     driverIcons: require('../assets/image/driversIcon.png'),
     human : require('../assets/image/human.png'),
-    faceScan: require('../assets/image/faceSturture.png')
+    faceScan: require('../assets/image/faceSturture.png'),
+    verfication : require('../assets/image/illustration.png'),
 };

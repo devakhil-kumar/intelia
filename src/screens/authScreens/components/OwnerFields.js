@@ -21,24 +21,27 @@ const OwnerFields = ({ formData, setFormData, errors, theme, setErrors, isSubmit
 
   return (
     <View style={style.secandBox}>
-      
-      <Text style={[style.inputHeader, { marginTop: 0 }]}>First Name</Text>
-      <CustomInput
-        placeholder="enter your first name"
-        value={formData.firstName}
-        onChangeText={(text) => handleChange('firstName', text)}
-        style={[{ marginTop: 8 }, errors.firstName && { borderColor: theme.validationColor, borderWidth: 1 }]}
-      />
-      {errors.firstName && <Text style={style.errorText}>{errors.firstName}</Text>}
 
-      <Text style={style.inputHeader}>Surname</Text>
+      <Text style={[style.inputHeader, { marginTop: 10 }]}>FullName</Text>
       <CustomInput
-        placeholder="enter your surname"
-        value={formData.surname}
-        onChangeText={(text) => handleChange('surname', text)}
-        style={[{ marginTop: 8 }, errors.surname && { borderColor: theme.validationColor, borderWidth: 1 }]}
+        placeholder="enter your fullName"
+        value={formData.fullName}
+        onChangeText={(text) => handleChange('fullName', text)}
+        style={[{ marginTop: 8 }, errors.fullName && { borderColor: theme.validationColor, borderWidth: 1 }]}
       />
-      {errors.surname && <Text style={style.errorText}>{errors.surname}</Text>}
+      {errors.fullName && <Text style={style.errorText}>{errors.fullName}</Text>}
+
+      <Text style={style.inputHeader}>Email</Text>
+      <CustomInput
+        placeholder="enter your email"
+        value={formData.email}
+        onChangeText={(text) => handleChange('email', text.toLowerCase())}
+        keyboardType="email-address"
+        autoCapitalize="none"
+        style={[{ marginTop: 8 }, errors.email && { borderColor: theme.validationColor, borderWidth: 1 }]}
+      />
+      {errors.email && <Text style={style.errorText}>{errors.email}</Text>}
+
 
       <Text style={style.inputHeader}>Company Name</Text>
       <CustomInput
@@ -68,17 +71,6 @@ const OwnerFields = ({ formData, setFormData, errors, theme, setErrors, isSubmit
         style={[{ marginTop: 8 }, errors.phoneNumber && { borderColor: theme.validationColor, borderWidth: 1 }]}
       />
       {errors.phoneNumber && <Text style={style.errorText}>{errors.phoneNumber}</Text>}
-
-      <Text style={style.inputHeader}>Email</Text>
-      <CustomInput
-        placeholder="enter your email"
-        value={formData.email}
-        onChangeText={(text) => handleChange('email', text.toLowerCase())}
-        keyboardType="email-address"
-        autoCapitalize="none"
-        style={[{ marginTop: 8 }, errors.email && { borderColor: theme.validationColor, borderWidth: 1 }]}
-      />
-      {errors.email && <Text style={style.errorText}>{errors.email}</Text>}
 
       <Text style={style.inputHeader}>Password</Text>
       <CustomInput
