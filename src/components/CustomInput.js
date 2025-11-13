@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { View, TextInput, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Platform } from 'react-native';
 import { moderateScale } from 'react-native-size-matters';
 import Icon from '@react-native-vector-icons/feather'
 import Fonts from '../styles/GolbalFonts';
@@ -61,13 +61,17 @@ const stylee = (theme) => StyleSheet.create({
         borderRadius: 16,
         paddingHorizontal: 15,
         backgroundColor: theme.inputBackgroundcolor,
-        paddingVertical: 4
+        minHeight: moderateScale(50),
+        paddingVertical: Platform.OS === 'ios' ? 14 : 12
     },
     input: {
         flex: 1,
         fontSize: moderateScale(14),
         color: theme.inputText,
-        fontFamily: Fonts.RubikRegular
+        fontFamily: Fonts.RubikRegular,
+        paddingVertical: Platform.OS === 'ios' ? 0 : 4,
+        includeFontPadding: false,
+        textAlignVertical: 'center'
     },
     focusedContainer: {
         borderColor: theme.primary,
