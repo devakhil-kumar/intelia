@@ -24,7 +24,7 @@ const VerificationCompletedScreen = () => {
 
     return (
         <View style={{ flex: 1, backgroundColor: theme.background, alignItems: 'center' }}>
-            <Text style={styles.headerText}>Selfie verification</Text>
+            <Text style={styles.headerText}>License verification</Text>
             <View style={styles.container}>
                 <Image
                     source={ImagePath.verfication}

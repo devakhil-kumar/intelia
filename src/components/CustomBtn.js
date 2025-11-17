@@ -3,6 +3,7 @@ import { TouchableOpacity, Text, View, StyleSheet, Image } from 'react-native';
 import { moderateScale } from 'react-native-size-matters';
 import Fonts from '../styles/GolbalFonts';
 import { useTheme } from '../contexts/ThemeContext';
+import Feather from '@react-native-vector-icons/feather';
 
 const CustomBtn = ({
     title,
@@ -10,10 +11,11 @@ const CustomBtn = ({
     variant = 'primary',
     icon,
     disabled = false,
-    fullWidth = true
+    fullWidth = true,
+    customStyles
 }) => {
-     const theme = useTheme();
-     const styles = style(theme);   
+    const theme = useTheme();
+    const styles = style(theme);
 
 
 
@@ -35,13 +37,14 @@ const CustomBtn = ({
 
     return (
         <TouchableOpacity
-            style={buttonStyles}
+            style={[buttonStyles,  customStyles ]}
             onPress={onPress}
             disabled={disabled}
             activeOpacity={0.8}
         >
             {icon !== null && icon !== undefined && (
-                <View style={styles.iconContainer}>{icon}</View>
+                // <View style={styles.iconContainer}>{icon}</View>
+                <Feather name={icon} size={20} color={theme.white} />
             )}
             <Text style={textStyles}>{title}</Text>
         </TouchableOpacity>
@@ -67,12 +70,12 @@ const style = (theme) => StyleSheet.create({
         backgroundColor: theme.primary,
     },
     secondaryButton: {
-        backgroundColor:theme.inputBackgroundcolor,
+        backgroundColor: theme.inputBackgroundcolor,
     },
     outlineButton: {
-        backgroundColor:theme.inputBackgroundcolor,
+        backgroundColor: theme.inputBackgroundcolor,
         borderWidth: 1,
-        borderColor:theme.border,
+        borderColor: theme.border,
     },
     disabled: {
         opacity: 0.5,
@@ -82,17 +85,17 @@ const style = (theme) => StyleSheet.create({
         fontWeight: '600',
     },
     primaryText: {
-        color:theme.white,
+        color: theme.white,
         fontSize: moderateScale(16),
         fontFamily: Fonts.RubikSemiBold,
     },
     secondaryText: {
-        color:theme.text,
+        color: theme.text,
         fontSize: moderateScale(14),
         fontFamily: Fonts.RubikSemiBold,
     },
     outlineText: {
-        color:theme.text,
+        color: theme.text,
         fontSize: moderateScale(14),
         fontFamily: Fonts.RubikMedium
     },

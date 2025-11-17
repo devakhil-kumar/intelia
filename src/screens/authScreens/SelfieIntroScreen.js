@@ -60,7 +60,7 @@ const SelfieIntroScreen = () => {
                     <TouchableOpacity onPress={() => navigation.goBack()}>
                         <Feather name='chevron-left' color={'#0000'} size={25} />
                     </TouchableOpacity>
-                    <Text style={styles.headerTitle}>Selfie verification</Text>
+                    <Text style={styles.headerTitle}>License verification</Text>
                     <View style={{ width: 24 }} />
                 </View>
                 <View style={styles.container}>

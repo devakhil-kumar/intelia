@@ -70,12 +70,12 @@ const UploaddriverImage = () => {
             formData.append('phoneNumber', driverData.phoneNumber);
             formData.append('municipality', driverData.municipality);
             formData.append('validUntil', driverData.validUntil);
-            const imageFile = {
+            const licensePhoto = {
                 uri: Platform.OS === 'android' ? image.path : image.path.replace('file://', ''),
                 type: image.mime || 'image/jpeg',
                 name: image.path.split('/').pop() || `profile_${Date.now()}.jpg`,
             };
-            formData.append('profileImage', imageFile);
+            formData.append('licensePhoto', licensePhoto);
             const response = await dispatch(registerDriver(formData)).unwrap();
             dispatch(showMessage({
                 type: 'success',
@@ -116,7 +116,7 @@ const UploaddriverImage = () => {
                     <TouchableOpacity onPress={() => navigation.goBack()}>
                         <Feather name='chevron-left' color={'#000'} size={25} />
                     </TouchableOpacity>
-                    <Text style={styles.headerTitle}>Selfie verification</Text>
+                    <Text style={styles.headerTitle}>License verification</Text>
                     <View style={{ width: 24 }} />
                 </View>
                 <View style={styles.container}>
@@ -157,8 +157,8 @@ const style = (theme) =>  StyleSheet.create({
         justifyContent: "space-around"
     },
     imageContainer: {
-        width: windowWidth/1.5,
-        height:windowHeight/3,
+        width: windowWidth/1.2,
+        height:windowHeight/4.5,
         borderRadius: 20,
         overflow: 'hidden',
         justifyContent: 'center',

@@ -1,316 +1,144 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import ImagePicker from 'react-native-image-crop-picker';
-import DriverFields from "../../screens/authScreens/components/DriverFields";
+import React from "react";
+import { View, Text, StyleSheet, Dimensions, Image, FlatList } from 'react-native';
 import { useTheme } from "../../contexts/ThemeContext";
-import { validateConfirmPassword, validateDate, validateEmail, validateLicenseNumber, validateName, validatePassword, validatePhoneNumber } from "../../units/validations";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import CustomBtn from "../../components/CustomBtn";
-import Fonts from "../../styles/GolbalFonts";
 import { moderateScale } from "react-native-size-matters";
-import { useFocusEffect } from "@react-navigation/native";
+import Fonts from "../../styles/GolbalFonts";
+import ImagePath from "../../contexts/ImagePath";
+import CustomBtn from "../../components/CustomBtn";
+import DriverListCard from './components/DriverListcard';
+const { width: windowWidth, height: windowHeight } = Dimensions.get("window");
+
+const DATA = [
+    {
+        id: '1',
+        name: 'Jordana Niclany',
+        phone: '+1234567890',
+        email: 'jordan@mail.com',
+        image: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde',
+    },
+    {
+        id: '2',
+        name: 'Michael Johnson',
+        phone: '+9876543210',
+        email: 'michael@mail.com',
+        image: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e',
+    },
+    {
+        id: '3',
+        name: 'Michael Johnson',
+        phone: '+9876543210',
+        email: 'michael@mail.com',
+        image: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e',
+    },
+];
+
 
 const DriverList = () => {
-    const initialFormData = {
-        fullName: '',
-        companyName: '',
-        reason: '',
-        phoneNumber: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-        licenseNumber: '',
-        municipality: '',
-        validUntil: '',
-    };
-    const [formData, setFormData] = useState(initialFormData);
-    const [licensePhoto, setLicensePhoto] = useState(null);
+
     const theme = useTheme();
     const styles = style(theme);
-    const [errors, setErrors] = useState({});
-    const [isSubmitted, setIsSubmitted] = useState(false);
-
-    useFocusEffect(
-        React.useCallback(() => {
-            return () => {
-                setFormData(initialFormData);
-                setLicensePhoto(null);
-                setErrors({});
-                setIsSubmitted(false);
-            };
-        }, [])
-    );
-
-    const handleCancel = () => {
-        setFormData(initialFormData);
-        setLicensePhoto(null);
-        setErrors({});
-        setIsSubmitted(false);
-    };
-
-    const validateField = (field, value) => {
-        switch (field) {
-            case 'fullName': return validateName(value, 'fullName');
-            case 'companyName':
-                if (!value) return 'Company name is required';
-                else if (value.length < 2) return 'Company name must be at least 2 characters';
-                else return '';
-            case 'reason':
-                if (!value) return 'This field is required';
-                else if (value.length < 10) return 'Please provide more details (at least 10 characters)';
-                else return '';
-            case 'phoneNumber': return validatePhoneNumber(value);
-            case 'email': return validateEmail(value);
-            case 'password': return validatePassword(value);
-            case 'confirmPassword': return validateConfirmPassword(formData.password, value);
-            case 'licenseNumber': return validateLicenseNumber(value);
-            case 'municipality': return !value ? 'Municipality is required' : '';
-            case 'validUntil': return validateDate(value);
-            default: return '';
-        }
-    };
-
-    const showImagePickerOptions = () => {
-        ImagePicker.openPicker({
-            width: 800,
-            height: 600,
-            cropping: true,
-            cropperCircleOverlay: false,
-            compressImageMaxWidth: 1000,
-            compressImageMaxHeight: 1000,
-            compressImageQuality: 0.8,
-            mediaType: 'photo',
-        }).then(image => {
-            setLicensePhoto({
-                uri: image.path,
-                type: image.mime,
-                name: image.filename || `license_${Date.now()}.jpg`,
-            });
-        }).catch(error => {
-            if (error.code !== 'E_PICKER_CANCELLED') {
-                Alert.alert('Error', 'Failed to pick image');
-            }
-        });
-    };
-
-    const removeImage = () => {
-        setLicensePhoto(null);
-    };
-
-    const handleAddDriver = () => {
-        setIsSubmitted(true);
-        const newErrors = {};
-        Object.keys(formData).forEach(field => {
-            const error = validateField(field, formData[field]);
-            if (error) newErrors[field] = error;
-        });
-        if (Object.keys(newErrors).length > 0) {
-            setErrors(newErrors);
-            // Alert.alert('Validation Error', 'Please fix all errors before submitting');
-            return;
-        }
-        if (!licensePhoto) {
-            Alert.alert('Missing Photo', 'Please upload a license photo');
-            return;
-        }
-        Alert.alert('Success', 'Driver added successfully!');
-        setFormData(initialFormData);
-        setLicensePhoto(null);
-        setErrors({});
-        setIsSubmitted(false);
-    };
 
     return (
-        <SafeAreaView style={styles.container} edges={[0]}>
-            <KeyboardAwareScrollView
-                showsVerticalScrollIndicator={false}
-                extraScrollHeight={100}
-                enableOnAndroid={true}
-            >
-                <View style={styles.content}>
-                    <DriverFields
-                        formData={formData}
-                        setFormData={setFormData}
-                        theme={theme}
-                        errors={errors}
-                        isSubmitted={isSubmitted}
-                        setErrors={setErrors}
-                        validateField={validateField}
-                    />
-                    <View style={styles.imageSection}>
-                        <Text style={styles.sectionTitle}>
-                            Upload License Photo
-                            <Text style={styles.optional}> (Optional but Recommended)</Text>
-                        </Text>
-
-                        {licensePhoto ? (
-                            <View style={styles.imagePreviewContainer}>
-                                <Image
-                                    source={{ uri: licensePhoto.uri }}
-                                    style={styles.imagePreview}
-                                    resizeMode="cover"
-                                />
-                                <TouchableOpacity
-                                    style={styles.removeButton}
-                                    onPress={removeImage}
-                                >
-                                    <Text style={styles.removeButtonText}>✕</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    style={styles.changePhotoButton}
-                                    onPress={showImagePickerOptions}
-                                >
-                                    <Text style={styles.changePhotoText}>Change Photo</Text>
-                                </TouchableOpacity>
-                            </View>
-                        ) : (
-                            <TouchableOpacity
-                                style={styles.uploadButton}
-                                onPress={showImagePickerOptions}
-                            >
-                                <Text style={styles.uploadIcon}>📷</Text>
-                                <Text style={styles.uploadText}>Upload Photo</Text>
-                            </TouchableOpacity>
-                        )}
+        <View style={{ flex: 1 }}>
+            <View style={{ paddingHorizontal: 16, flex: 1, paddingTop: 10 }}>
+                <Text style={styles.firstHeader}>Contact</Text>
+                <View style={styles.gridContainer}>
+                    <View style={styles.card}>
+                        <Image source={ImagePath.driverIcons} style={styles.icon} />
+                        <View >
+                            <Text style={styles.cardValue}>932</Text>
+                            <Text style={styles.cardTitle}>Total Driver</Text>
+                        </View>
                     </View>
 
-                    <View style={styles.buttonContainer}>
-                        <CustomBtn title={'Add Driver'} onPress={handleAddDriver} />
-                        <TouchableOpacity style={styles.galleryButton} onPress={handleCancel} >
-                            <Text style={styles.galleryButtonText}>Cancel</Text>
-                        </TouchableOpacity>
+                    <View style={styles.card}>
+                        <Image source={ImagePath.incidents} style={styles.icon} />
+                        <View >
+                            <Text style={styles.cardValue}>0</Text>
+                            <Text style={styles.cardTitle}>Low Risk</Text>
+                        </View>
+                    </View>
+
+                    <View style={styles.card}>
+                        <Image source={ImagePath.inquiries} style={styles.icon} />
+                        <View >
+                            <Text style={styles.cardValue}>1,032</Text>
+                            <Text style={styles.cardTitle}>Risk Scored</Text>
+
+                        </View>
+                    </View>
+
+                    <View style={styles.card}>
+                        <Image source={ImagePath.licenses} style={styles.icon} />
+                        <View >
+                            <Text style={styles.cardValue}>32K</Text>
+                            <Text style={styles.cardTitle}>Assets</Text>
+                        </View>
                     </View>
                 </View>
-            </KeyboardAwareScrollView>
-        </SafeAreaView>
-    );
-};
-
-const style = (theme) => StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-    },
-    content: {
-        flex: 1,
-        paddingHorizontal: 16,
-    },
-    imageSection: {
-        marginBottom: 15,
-    },
-    sectionTitle: {
-        fontSize: moderateScale(16),
-        color: theme.text,
-        fontFamily: Fonts.RubikBold,
-        marginTop: 20
-    },
-    optional: {
-        fontSize: 14,
-        fontWeight: '400',
-        color: '#666',
-    },
-    uploadButton: {
-        backgroundColor: '#F5F5F5',
-        borderWidth: 2,
-        borderColor: '#E0E0E0',
-        borderStyle: 'dashed',
-        borderRadius: 12,
-        padding: 32,
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 10
-    },
-    uploadIcon: {
-        fontSize: 48,
-        marginBottom: 8,
-    },
-    uploadText: {
-        fontSize: 16,
-        color: '#666',
-        fontWeight: '500',
-    },
-    imagePreviewContainer: {
-        position: 'relative',
-        alignItems: 'center',
-        marginTop: 10
-    },
-    imagePreview: {
-        width: '100%',
-        height: 200,
-        borderRadius: 12,
-        backgroundColor: '#F5F5F5',
-    },
-    removeButton: {
-        position: 'absolute',
-        top: 8,
-        right: 8,
-        backgroundColor: 'rgba(0, 0, 0, 0.6)',
-        width: 32,
-        height: 32,
-        borderRadius: 16,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    removeButtonText: {
-        color: '#fff',
-        fontSize: 18,
-        fontWeight: 'bold',
-    },
-    changePhotoButton: {
-        marginTop: 12,
-        paddingVertical: 8,
-        paddingHorizontal: 16,
-        backgroundColor: '#F5F5F5',
-        borderRadius: 8,
-    },
-    changePhotoText: {
-        color: '#2563EB',
-        fontSize: 14,
-        fontWeight: '500',
-    },
-    buttonContainer: {
-        // marginTop:15,
-        // gap: 12,
-    },
-    addButton: {
-        backgroundColor: '#2563EB',
-        paddingVertical: 16,
-        borderRadius: 8,
-        alignItems: 'center',
-    },
-    addButtonText: {
-        color: '#fff',
-        fontSize: 16,
-        fontWeight: '600',
-    },
-    cancelButton: {
-        backgroundColor: '#fff',
-        paddingVertical: 16,
-        borderRadius: 8,
-        alignItems: 'center',
-        borderWidth: 1,
-        borderColor: '#E0E0E0',
-    },
-    cancelButtonText: {
-        color: '#2563EB',
-        fontSize: 16,
-        fontWeight: '600',
-    },
-    galleryButton: {
-        borderColor: theme.primary,
-        borderWidth: 1,
-        width: '100%',
-        paddingVertical: 15,
-        borderRadius: 10,
-        alignItems: 'center',
-        marginTop: 10
-    },
-    galleryButtonText: {
-        color: theme.primary,
-        fontSize: 16,
-        fontWeight: '600',
-    },
-});
+                <View style={{ flex: 1 }}>
+                    <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center",marginBottom:10 }}>
+                        <Text style={styles.firstHeader}>Driverlist</Text>
+                        <CustomBtn title={'Add driver'} icon={'plus'} customStyles={styles.addBtn} />
+                    </View>
+                    <FlatList
+                        data={DATA}
+                        keyExtractor={(item) => item.id}
+                        renderItem={({ item }) => <DriverListCard item={item} />}
+                        showsVerticalScrollIndicator={false}
+                        contentContainerStyle={{ paddingBottom: 10 }}
+                    />
+                </View>
+            </View>
+        </View>
+    )
+}
 
 export default DriverList;
+
+const style = (theme) => StyleSheet.create({
+    card: {
+        width: (windowWidth - 48) / 2,
+        backgroundColor: "#fff",
+        borderRadius: 12,
+        alignItems: "center",
+        justifyContent: 'space-evenly',
+        paddingVertical: 10,
+        marginBottom: 14,
+        shadowColor: "#000",
+        shadowOpacity: 0.05,
+        shadowOffset: { width: 0, height: 1 },
+        elevation: 2,
+        flexDirection: 'row'
+    },
+    icon: {
+        width: 50,
+        height: 50,
+    },
+    cardTitle: {
+        fontSize: moderateScale(13),
+        color: theme.subText,
+        fontFamily: Fonts.InterRegular
+    },
+    cardValue: {
+        fontSize: moderateScale(15),
+        color: theme.primaryText,
+        fontFamily: Fonts.InterSemiBold
+    },
+    gridContainer: {
+        flexDirection: "row",
+        flexWrap: "wrap",
+        justifyContent: "space-between",
+        marginTop: 5,
+    },
+    firstHeader: {
+        fontFamily: Fonts.InterSemiBold,
+        fontSize: moderateScale(16),
+        color: theme.primaryText
+    },
+    addBtn: {
+        width: '40%',
+        paddingVertical: 10,
+        borderRadius: 8
+    }
+})

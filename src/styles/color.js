@@ -5,7 +5,7 @@ export const lightTheme = {
     inputText: '#757575',
     inputBackgroundcolor: '#fff',
     background: '#FFFFFF',
-    primaryText: '#363B64',
+    primaryText: '#0000',
     text: '#424242',
     subText: '#BDBDBD',
     border: '#E0E0E0',
